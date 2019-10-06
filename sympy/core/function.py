@@ -3074,6 +3074,7 @@ def nfloat(expr, n=15, exponent=False):
     """
     from sympy.core.power import Pow
     from sympy.polys.rootoftools import RootOf
+    from sympy.functions.elementary.piecewise import ExprCondPair
     from sympy import MatrixBase
 
     if isinstance(expr, MatrixBase):
@@ -3083,7 +3084,14 @@ def nfloat(expr, n=15, exponent=False):
         if isinstance(expr, (dict, Dict)):
             return type(expr)([(k, nfloat(v, n, exponent)) for k, v in
                                list(expr.items())])
+
+        if isinstance(expr, ExprCondPair):
+            e = expr[0]
+            cond = nfloat(expr[1], n, exponent)
+            return ExprCondPair(e, cond)
+
         return type(expr)([nfloat(a, n, exponent) for a in expr])
+
     rv = sympify(expr)
 
     if rv.is_Number:
