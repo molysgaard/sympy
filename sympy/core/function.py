@@ -3074,6 +3074,10 @@ def nfloat(expr, n=15, exponent=False):
     """
     from sympy.core.power import Pow
     from sympy.polys.rootoftools import RootOf
+    from sympy import MatrixBase
+
+    if isinstance(expr, MatrixBase):
+        return expr.applyfunc(nfloat)
 
     if iterable(expr, exclude=string_types):
         if isinstance(expr, (dict, Dict)):
