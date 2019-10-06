@@ -3105,6 +3105,10 @@ def nfloat(expr, n=15, exponent=False):
             pass  # pure_complex(rv) is likely True
         return rv
 
+    # Boolean exprs can not be converted to floats, so they are simply returned
+    if rv.is_Boolean:
+        return rv
+
     # watch out for RootOf instances that don't like to have
     # their exponents replaced with Dummies and also sometimes have
     # problems with evaluating at low precision (issue 6393)
